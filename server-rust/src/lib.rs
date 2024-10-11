@@ -19,6 +19,8 @@ pub mod handlers {
     pub mod log;
     pub mod users;
     pub mod files;
+
+    pub mod swagger;
 }
 
 pub mod models {

@@ -1,17 +1,18 @@
 use chrono::{DateTime, Utc};
 use redis::{RedisWrite, ToRedisArgs};
 use serde::{Deserialize, Serialize};
+use utoipa::ToSchema;
 use validator::Validate;
 use crate::models::model::LivingLabUser;
 
-#[derive(Validate, Debug, Default, Clone, Serialize, Deserialize)]
+#[derive(Validate, Debug, Default, Clone, Serialize, Deserialize, ToSchema)]
 pub struct LoginUserDto {
     #[validate(length(min = 6, message = "code is required"))]
     pub code: String,
     pub login_source: LoginPlatform,
 }
 
-#[derive(Validate, Debug, Clone, Serialize, Deserialize, Default)]
+#[derive(Debug, Clone, Serialize, Deserialize, Default, ToSchema)]
 pub enum LoginPlatform {
     #[default]
     WeChat,
@@ -48,7 +49,7 @@ pub struct RequestQueryDto {
     pub limit: Option<usize>,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, ToSchema)]
 pub struct FilterUserDto {
     #[serde(rename = "userId")]
     pub user_id: String,
@@ -87,7 +88,7 @@ impl ToRedisArgs for FilterUserDto {
     }
 }
 
-#[derive(Validate, Debug, Default, Clone, Serialize, Deserialize)]
+#[derive(Validate, Debug, Default, Clone, Serialize, Deserialize, ToSchema)]
 pub struct NameUpdateDto {
     #[validate(length(min = 1, message = "Name is required"))]
     pub name: String,

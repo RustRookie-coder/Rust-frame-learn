@@ -14,6 +14,7 @@ use tower_http::trace::TraceLayer;
 use serde::{Deserialize, Serialize};
 use sqlx::{Pool, Postgres};
 use sqlx::postgres::{PgPool, PgPoolOptions};
+use tokio_cron_scheduler::JobScheduler;
 // use tokio::sync::Mutex;
 use tracing_subscriber::{fmt, layer::SubscriberExt, util::SubscriberInitExt};
 use rs_counter_study::app_state::AppState;
@@ -37,6 +38,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     //     .await
     //     .unwrap();
     //+++++++++++++++++++++++++++++++++
+
+    let sched = JobScheduler::new().await.unwrap();
 
     // server configuration
     let config = Config::init();

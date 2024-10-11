@@ -1,3 +1,4 @@
+//@ts-ignore
 import { Message } from '@arco-design/web-vue'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'

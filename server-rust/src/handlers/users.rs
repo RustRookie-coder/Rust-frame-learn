@@ -21,6 +21,14 @@ pub fn users_handler() -> Router {
         .route("/update", put(update_user_name))
 }
 
+#[utoipa::path(
+    post,
+    path = "/api/v1/users/list",
+    responses(
+        (status=200,body=[ResultTo], description="FilterUserDto created"),
+        (status=404, description="result not found")
+    )
+)]
 async fn get_users(
     Query(query_params): Query<RequestQueryDto>,
     Extension(app_state): Extension<Arc<AppState>>,
@@ -39,7 +47,7 @@ async fn get_users(
 
     if cache_data.len() > 0 {
         let data = from_str::<Vec<FilterUserDto>>(&cache_data).unwrap();
-        return Ok(Json(ResultTo::success_response(data)))
+        return Ok(Json(data))
     }
 
     // if not find data in cache then request from database
@@ -53,9 +61,17 @@ async fn get_users(
         .await
         .map_err(|e| HttpError::server_error(e.to_string()))?;
 
-    Ok(Json(ResultTo::success_response(filter_user)))
+    Ok(Json(filter_user))
 }
 
+#[utoipa::path(
+    post,
+    path = "/api/v1/users/update",
+    responses(
+        (status=200,body=ResultTo, description="FilterUserDto created"),
+        (status=404, description="FilterUserDto not found")
+    )
+)]
 async fn update_user_name(
     Extension(app_state): Extension<Arc<AppState>>,
     Extension(user): Extension<JWTAuthMiddleware>,
@@ -73,5 +89,5 @@ async fn update_user_name(
         .await
         .map_err(|e| HttpError::server_error(e.to_string()))?;
 
-    Ok(Json(ResultTo::success_response(FilterUserDto::convert_to_dto_user(&user))))
+    Ok(Json(FilterUserDto::convert_to_dto_user(&user)))
 }

@@ -38,6 +38,9 @@ tonic = "0.12.3"
 http = "1.1.0"
 image = "0.25.2"
 futures-util = "0.3.30"
+tokio-cron-scheduler = "0.13.0"
+utoipa = { version = "4.2.3", features = ["chrono", "preserve_order", "preserve_path_order","axum_extras"] }
+utoipa-swagger-ui = { version = "7.1.0", features = ["axum"] }
 
 
 [dev-dependencies]

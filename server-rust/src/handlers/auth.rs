@@ -6,6 +6,7 @@ use axum::response::IntoResponse;
 use axum::routing::post;
 use jsonwebtoken::{encode, Header};
 use serde::Serialize;
+use utoipa::ToSchema;
 use validator::Validate;
 use crate::app_state::AppState;
 
@@ -20,6 +21,14 @@ pub fn auth_handler() -> Router {
         .route("/login", post(login))
 }
 
+#[utoipa::path(
+    post,
+    path = "/api/v1/auth/login",
+    responses(
+        (status=200,body=AuthBody, description="token created"),
+        (status=404, description="not found")
+    )
+)]
 async fn login(Extension(app_state): Extension<Arc<AppState>>,
                    Json(body): Json<LoginUserDto>) -> Result<impl IntoResponse, HttpError> {
     body.validate()
@@ -61,7 +70,7 @@ async fn wx_login(code: String) -> Result<WxUser, HttpError> {
     Ok(WxUser::default())
 }
 
-#[derive(Serialize)]
+#[derive(Serialize, ToSchema)]
 pub struct AuthBody {
     access_token: String,
     token_type: String,

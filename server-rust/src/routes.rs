@@ -13,9 +13,12 @@ use tower_http::{
 };
 use tower_http::request_id::{MakeRequestId, PropagateRequestIdLayer, RequestId, SetRequestIdLayer};
 use tracing::{info_span, Level};
+use utoipa::OpenApi;
+use utoipa_swagger_ui::SwaggerUi;
 use rs_counter_study::handlers::auth::auth_handler;
 use rs_counter_study::handlers::files::files_handler;
 use rs_counter_study::handlers::health::heath_handler;
+use rs_counter_study::handlers::swagger::ApiDoc;
 use rs_counter_study::handlers::users::users_handler;
 use rs_counter_study::middleware::auth_middleware::auth;
 use crate::AppState;
@@ -61,6 +64,7 @@ pub fn create_router(app_state: Arc<AppState>)  -> Router {
         );
     Router::new().nest("/api/v1", api_route)
         .route("/", get(root))
+        .merge(SwaggerUi::new("/swagger-ui").url("/api-doc/openapi.json", ApiDoc::openapi()))
 }
 
 async fn root() -> &'static str {
