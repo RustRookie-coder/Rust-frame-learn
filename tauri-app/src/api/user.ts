@@ -1,27 +1,37 @@
-import { UserState } from '@/store/modules/user/types'
-import axios from 'axios'
-import type { RouteRecordNormalized } from 'vue-router'
+// import { IAccessToken, IErrorResp, IUser } from './type';
+// import axiosIns from '@/plugins/axios';
 
-export interface LoginData {
-    username: string
-    password: string
+export async function login(params: object) {
+    const options = {
+        method: 'POST',
+        url: `/api/auth/login`,
+        data: params,
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+    // return axiosIns.request<IAccessToken>(options);
+    return "todo!!!!"
+}
+export async function fetchMe() {
+    const options = {
+        method: 'GET',
+        url: `/api/me`,
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+    return "todo!!!";
 }
 
-export interface LoginRes {
-    token: string
-}
-export function login(data: LoginData) {
-    return axios.post<LoginRes>('/api/user/login', data)
-}
-
-export function logout() {
-    return axios.post<LoginRes>('/api/user/logout')
-}
-
-export function getUserInfo() {
-    return axios.post<UserState>('/api/user/info')
-}
-
-export function getMenuList() {
-    return axios.post<RouteRecordNormalized[]>('/api/user/menu')
+export async function fetchUser(params) {
+    const options = {
+        method: 'GET',
+        url: `/api/user`,
+        params: params,
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+    return "todo!!!";
 }

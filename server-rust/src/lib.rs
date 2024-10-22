@@ -49,6 +49,8 @@ pub mod service {
 pub mod utils {
     pub mod password;
     pub mod token;
+
+    pub mod adapter;
 }
 
 pub mod config;
