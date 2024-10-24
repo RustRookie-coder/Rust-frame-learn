@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@date-io/dayjs": "^3.0.0",
+    "@element-plus/icons-vue": "^2.3.1",
     "@fullcalendar/core": "^6.1.15",
     "@fullcalendar/daygrid": "^6.1.15",
     "@fullcalendar/interaction": "^6.1.15",
@@ -17,28 +18,30 @@
     "@fullcalendar/timegrid": "^6.1.15",
     "@fullcalendar/vue3": "^6.1.15",
     "dayjs": "^1.11.13",
+    "element-plus": "^2.8.6",
     "pinia": "^2.2.4",
     "pinia-plugin-persistedstate": "^4.1.1",
+    "unplugin-element-plus": "^0.8.0",
     "vue": "^3.5.10",
-    "vue-i18n": "^9.9.1",
+    "vue-i18n": "^10.0.4",
     "vue-router": "^4.4.5",
-    "vue3-perfect-scrollbar": "1.6.1",
-    "vuetify": "3.5.6",
-    "@tauri-apps/api": "^1.0.0"
+    "vue3-perfect-scrollbar": "2.0.0"
   },
   "devDependencies": {
     "@mdi/font": "^7.4.47",
     "@tauri-apps/api": "^2.0.2",
-    "@tauri-apps/cli": "^2.0.3",
+    "@tauri-apps/cli": "^2.0.4",
     "@types/node": "^22.7.6",
     "@vitejs/plugin-vue": "^5.1.4",
     "fullcalendar": "^6.1.15",
     "sass": "^1.71.1",
     "sass-loader": "^14.1.1",
     "typescript": "^5.5.3",
+    "unplugin-auto-import": "^0.18.3",
+    "unplugin-vue-components": "^0.27.4",
     "vite": "^5.4.8",
     "vite-plugin-vue-devtools": "^7.5.2",
-    "vue-tsc": "^2.1.6",
-    "vuetify-loader": "^2.0.0-alpha.9"
+    "vite-plugin-windicss": "^1.9.3",
+    "windicss": "^3.5.6"
   }
 }

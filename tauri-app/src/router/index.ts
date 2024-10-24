@@ -1,41 +1,48 @@
-import { fetchMe } from '@/api/user';
-// import { useUserStore } from '@/store/userStore';
-import { createRouter, createWebHashHistory } from 'vue-router';
-import PrivateRoutes from './private';
-import PublicRoutes from './public';
+import {createRouter, createWebHistory, RouteRecordRaw} from "vue-router";
+import Home from "@/views/Home.vue";
+import Login from "@/views/Login.vue";
+import NotFound from "@/components/NotFound.vue";
+import {useAuthStore} from "@/store/auth";
+import TodoDemo from "@/components/TodoDemo.vue";
 
-const whiteList = ['Login', 'Register', 'Forget', 'Reset'];
-
-export const router = createRouter({
-    history: createWebHashHistory(import.meta.env.BASE_URL),
-    scrollBehavior(to) {
-        if (to.hash) return { el: to.hash, behavior: 'smooth', top: 60 };
-
-        return { top: 0 };
+const routes: Array<RouteRecordRaw> = [
+    {
+        path: '/',
+        name: 'Home',
+        component: Home,
+        meta: { requiresAuth: true }
     },
-    routes: [
-        {
-            path: '/:pathMatch(.*)*',
-            component: () => import('@/views/pages/NotFound.vue')
-        },
-        PrivateRoutes,
-        PublicRoutes
-    ]
-});
-
-// Docs: https://router.vuejs.org/guide/advanced/navigation-guards.html#global-before-guards
-router.beforeEach(async (to) => {
-    const routeName = String(to.name);
-    if (whiteList.includes(routeName)) {
-        return true;
-    } else {
-        // const userStore = useUserStore();
-        try {
-            const resp = await fetchMe();
-            console.log(resp);
-            return true;
-        } catch (error) {
-            return { name: 'Login' };
-        }
+    {
+        path: '/login',
+        name: 'Login',
+        component: Login
+    },
+    {
+        path: '/todo',
+        name: 'Todo',
+        component: TodoDemo
+    },
+    {
+        path: '/:pathMatch(.*)*',
+        name: 'NotFound',
+        component: NotFound
     }
-});
+]
+
+const router = createRouter({
+    history: createWebHistory(import.meta.env.VITE_API_URL),
+    routes,
+})
+
+// 全局路由守卫
+router.beforeEach((to, from, next) => {
+    const authStore = useAuthStore()
+    if (to.meta.requiresAuth && !authStore.isAuthenticated) {
+        // 如果没有登录，则跳转到登录页面
+        next({ name: 'Login' })
+    } else {
+        next()  // 否则放行
+    }
+})
+
+export default router

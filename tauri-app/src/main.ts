@@ -1,14 +1,21 @@
 import { createApp } from 'vue'
-import './style.css'
+import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
 import App from './App.vue'
-import i18n from "./plugins/i18n";
-import vuetify from "./plugins/vuetify";
-import { router } from './router';
-import store from "@/store";
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
+import router from "@/router";
+import { createPinia } from 'pinia'
+import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 
 const app = createApp(App);
-app.use(i18n);
-app.use(vuetify);
-app.use(router);
-app.use(store);
+for(const [key, component] of Object.entries(ElementPlusIconsVue)) {
+    app.component(key, component)
+}
+const pinia = createPinia();
+app.use(ElementPlus, {
+    locale: zhCn,
+})
+import 'virtual:windi.css'
+app.use(router)
+app.use(pinia)
 app.mount('#app')

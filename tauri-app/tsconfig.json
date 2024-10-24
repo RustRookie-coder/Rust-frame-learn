@@ -28,7 +28,8 @@
     "skipLibCheck": true,
     "types": [
       "vite/client",
-      "unplugin-vue-define-options/macros-global"
+      "unplugin-vue-define-options/macros-global",
+      "element-plus/global"
     ]
   },
   "include": [
