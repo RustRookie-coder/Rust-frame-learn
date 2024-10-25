@@ -70,8 +70,7 @@ const onSubmit = async () => {
   formRef.value.validate((valid) => {
     if(valid) {
       try {
-        await authStore.login(form.username, form.password)
-        await router.push('/')
+        authStore.login(form.username, form.password)
       } catch (error) {
         console.log("error:" + error)
         alert('Login failed: ' + error.message)
@@ -92,7 +91,7 @@ const rules = {
   password: [{
     required: true, message: '用户密码不能为空', trigger: 'blur'
   }, {
-    min: 10, max: 15, message: '密码长度至少10 ～ 15个字符', trigger: 'blur'
+    min: 5, max: 15, message: '密码长度至少5 ～ 15个字符', trigger: 'blur'
   }],
 }
 //dishaxy.dishait.cn/shopadminapi

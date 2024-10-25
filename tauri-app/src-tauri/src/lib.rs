@@ -1,5 +1,16 @@
 use std::sync::{Arc, Mutex};
 use tauri::command;
+use crate::controller::auth_controller::login_command;
+
+pub mod controller {
+    pub mod auth_controller;
+}
+
+pub mod utils {
+    pub mod token;
+}
+
+pub mod service;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -7,7 +18,7 @@ pub fn run() {
         .manage(AppState {
             todos: Arc::new(Mutex::new(Vec::new())),
         })
-        .invoke_handler(tauri::generate_handler![add_todo, get_todos, login])
+        .invoke_handler(tauri::generate_handler![add_todo, get_todos, login_command])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
@@ -27,11 +38,6 @@ fn add_todo(todo: String, state: tauri::State<AppState>) -> TodoItem {
 fn get_todos(state: tauri::State<AppState>) -> Vec<TodoItem> {
     let todos = state.todos.lock().unwrap();
     todos.clone()
-}
-
-#[command]
-fn login(username: String, password: String) -> bool {
-    username == "admin" && password == "password"
 }
 
 // 定义一个全局的待办事项
