@@ -5,7 +5,11 @@ import TodoDemo from "@/components/TodoDemo.vue";
 
 <template>
   <el-config-provider>
-    <router-view />
+    <router-view/>
   </el-config-provider>
 </template>
-
+<style>
+#nprogress .bar {
+  background-color: #f4f4f4 !important;
+}
+</style>

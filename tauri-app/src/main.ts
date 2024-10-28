@@ -16,6 +16,9 @@ app.use(ElementPlus, {
     locale: zhCn,
 })
 import 'virtual:windi.css'
+import 'nprogress/nprogress.css'
+import {store} from "@/store";
 app.use(router)
+app.use(store)
 app.use(pinia)
 app.mount('#app')

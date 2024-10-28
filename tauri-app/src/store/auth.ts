@@ -1,7 +1,8 @@
 import { defineStore } from 'pinia'
 import {invoke} from "@tauri-apps/api/core";
 import router from "@/router";
-import {ref} from "vue";
+import {ElNotification} from "element-plus";
+import { useCookies } from "@vueuse/integrations/useCookies";
 
 export const useAuthStore = defineStore('auth', {
     state: () => ({
@@ -10,19 +11,28 @@ export const useAuthStore = defineStore('auth', {
     }),
     actions: {
         async login(username: string, password: string) {
+            const cookie = useCookies()
             const res = await invoke<string>('login_command', {username: username, password: password})
             // 模拟登录逻辑，通常这里会进行 API 请求
             if (res.token.length > 0) {
                 this.isAuthenticated = true
                 this.user = { name: 'Admin'}
+                cookie.set("token", res.token)
                 await router.push('/')
             } else {
-                throw new Error('Invalid credentials')
+                ElNotification({
+                    message: '请求失败',
+                    type: 'error',
+                    duration: 3000
+                })
+                // throw new Error('Invalid credentials')
             }
         },
         async logout() {
+            const cookie = useCookies()
             this.isAuthenticated = false
             this.user = null
+            cookie.remove("token")
         }
     }
 })

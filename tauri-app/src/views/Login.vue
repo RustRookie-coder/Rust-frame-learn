@@ -44,7 +44,7 @@
           </el-input>
         </el-form-item>
         <el-form-item>
-          <el-button round color="#626aef" class="w-[250px]" type="primary" @click="onSubmit">Login</el-button>
+          <el-button round color="#626aef" class="w-[250px]" type="primary" :loading="loading" @click="onSubmit">Login</el-button>
         </el-form-item>
       </el-form>
     </el-col>
@@ -52,7 +52,7 @@
 </template>
 
 <script setup lang="ts">
-import {reactive, ref, warn, onMounted} from 'vue'
+import {reactive, ref, warn, onMounted, onBeforeMount} from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/store/auth'
 import { invoke } from "@tauri-apps/api/core"
@@ -61,21 +61,25 @@ const form = reactive({
   username: ref(''),
   password: ref('')
 })
-// const username = ref('')
-// const password = ref('')
 const router = useRouter()
 const authStore = useAuthStore()
+const loading = ref(false)
 
 const onSubmit = async () => {
   formRef.value.validate((valid) => {
     if(valid) {
+      loading.value = true
       try {
         authStore.login(form.username, form.password)
       } catch (error) {
         console.log("error:" + error)
         alert('Login failed: ' + error.message)
       }
+    } else {
+      return false;
     }
+  }).finally(() => {
+    loading.value = false
   })
 }
 
@@ -96,6 +100,12 @@ const rules = {
 }
 //dishaxy.dishait.cn/shopadminapi
 const formRef = ref(null)
+const onKeyUp = async (e) => {
+  if(e.key == "Enter") {
+    await onSubmit()
+  }
+}
+
 
 // 待办事项列表和输入的待办事项
 const todos = ref<string[]>([]);
@@ -112,7 +122,12 @@ const addTodo = async () => {
 // 页面加载时获取待办事项
 onMounted(async () => {
   todos.value = await invoke<string[]>('get_todos');
+  document.addEventListener("keyup", onKeyUp);
 });
+
+onBeforeMount(async () => {
+  document.removeEventListener("keyup", onKeyUp);
+})
 
 const warn = async (message, event) => {
   // 这里可以访问原生事件
@@ -122,7 +137,7 @@ const warn = async (message, event) => {
   alert(message)
 }
 </script>
-<style scoped>
+<style>
 .login-container {
   @apply min-h-screen bg-indigo-500;
 }
