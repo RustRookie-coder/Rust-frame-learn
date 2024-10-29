@@ -11,13 +11,25 @@ import TagList from "@/components/TagList.vue";
       <Header/>
     </el-header>
     <el-container>
-      <el-aside>
+      <el-aside :width="$store.state.asideWidth">
         <Menu></Menu>
       </el-aside>
       <el-main>
         <TagList></TagList>
-        <router-view></router-view>
+        <router-view v-slot="{ Component }">
+          <transition name="fade">
+            <keep-alive :max="10">
+              <component :is="Component"></component>
+            </keep-alive>
+          </transition>
+        </router-view>
       </el-main>
     </el-container>
   </el-container>
 </template>
+
+<style>
+.el-aside {
+  transition: all 0.2s;
+}
+</style>

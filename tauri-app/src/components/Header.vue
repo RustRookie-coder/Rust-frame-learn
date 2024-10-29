@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import {Aim, ArrowDown, ElemeFilled, Fold, FullScreen, Refresh} from "@element-plus/icons-vue";
+import {Aim, ArrowDown, ElemeFilled, Expand, Fold, FullScreen, Refresh} from "@element-plus/icons-vue";
 import {useRouter} from "vue-router";
 import {useAuthStore} from "@/store/auth";
 import {ElMessage, ElMessageBox} from "element-plus";
@@ -101,10 +101,11 @@ const rules = {
   <div class="b-header">
     <span class="logo">
       <el-icon><eleme-filled/></el-icon>
-      Coding Demo
+      BI-Coding
     </span>
-    <el-icon class="icon-btn">
-      <fold/>
+    <el-icon class="icon-btn" @click="$store.commit('handleAsideWidth')">
+      <fold v-if="$store.state.asideWidth == '250px'"/>
+      <Expand v-else/>
     </el-icon>
     <el-tooltip effect="dark" content="刷新" placement="bottom">
       <el-icon class="icon-btn" @click="handleRefresh">

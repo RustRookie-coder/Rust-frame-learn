@@ -25,7 +25,6 @@ export const useAuthStore = defineStore('auth', {
                     type: 'error',
                     duration: 3000
                 })
-                // throw new Error('Invalid credentials')
             }
         },
         async logout() {
