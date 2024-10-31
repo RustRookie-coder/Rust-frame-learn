@@ -122,7 +122,7 @@ const rules = {
       <el-dropdown class="dropdown" @command="handleCommand">
         <span class="flex items-center text-light-50">
           <el-avatar class="mr-2" :size="25"/>
-          用户名
+          {{ authStore.user?.name }}
           <el-icon class="el-icon-right" :src="ArrowDown">
             <arrow-down/>
           </el-icon>

@@ -9,6 +9,12 @@ import Panel from "@/layout/Panel.vue";
 import CategoryList from "@/views/category/CategoryList.vue";
 import UserList from "@/views/users/UserList.vue";
 import Home from "@/views/Home.vue";
+import OrderList from "@/views/order/OrderList.vue";
+import CommentList from "@/views/comment/CommentList.vue";
+import ImageList from "@/views/image/ImageList.vue";
+import NoticeList from "@/views/notice/NoticeList.vue";
+import SettingBase from "@/views/setting/SettingBase.vue";
+import CouponList from "@/views/coupon/CouponList.vue";
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -43,6 +49,55 @@ const routes: Array<RouteRecordRaw> = [
                 component: UserList,
                 meta: {
                     title: "用户管理"
+                }
+            },
+            {
+                path: "/order/list",
+                name: "/order/list",
+                component: OrderList,
+                meta:{
+                    title: "订单",
+                }
+            },
+            {
+                path: "/comment/list",
+                name: "/comment/list",
+                component: CommentList,
+                meta: {
+                    title: "评价",
+                }
+            },
+            {
+                path: "/image/list",
+                name: "/image/list",
+                component: ImageList,
+                meta: {
+                    title: "图库",
+                }
+            },
+            {
+                path: "/notice/list",
+                name: "/notice/list",
+                component: NoticeList,
+                meta: {
+                    title: "公告",
+                }
+
+            },
+            {
+                path: "/setting/base",
+                name: "/setting/base",
+                component: SettingBase,
+                meta: {
+                    title: "配置",
+                }
+            },
+            {
+                path: "/coupon/list",
+                name: "/coupon/list",
+                component: CouponList,
+                meta: {
+                    title: "优惠券",
                 }
             }
         ]
@@ -120,6 +175,55 @@ const asyncRoutes  = [
         component: UserList,
         meta: {
             title: "用户管理"
+        }
+    },
+    {
+        path: "/order/list",
+        name: "/order/list",
+        component: OrderList,
+        meta:{
+            title: "订单",
+        }
+    },
+    {
+        path: "/comment/list",
+        name: "/comment/list",
+        component: CommentList,
+        meta: {
+            title: "评价",
+        }
+    },
+    {
+        path: "/image/list",
+        name: "/image/list",
+        component: ImageList,
+        meta: {
+            title: "图库",
+        }
+    },
+    {
+        path: "/notice/list",
+        name: "/notice/list",
+        component: NoticeList,
+        meta: {
+            title: "公告",
+        }
+
+    },
+    {
+        path: "/setting/base",
+        name: "/setting/base",
+        component: SettingBase,
+        meta: {
+            title: "配置",
+        }
+    },
+    {
+        path: "/coupon/list",
+        name: "/coupon/list",
+        component: CouponList,
+        meta: {
+            title: "优惠券",
         }
     }
 ]
