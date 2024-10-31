@@ -3,7 +3,7 @@ import GoodList from "@/views/goods/GoodList.vue";
 import Login from "@/views/Login.vue";
 import NotFound from "@/components/NotFound.vue";
 import {useAuthStore} from "@/store/auth";
-import TodoDemo from "@/components/TodoDemo.vue";
+import TauriDemo from "@/components/TauriDemo.vue";
 import {hideFullLoading, showFullLoading} from "@/utils/common";
 import Panel from "@/layout/Panel.vue";
 import CategoryList from "@/views/category/CategoryList.vue";
@@ -15,6 +15,7 @@ import ImageList from "@/views/image/ImageList.vue";
 import NoticeList from "@/views/notice/NoticeList.vue";
 import SettingBase from "@/views/setting/SettingBase.vue";
 import CouponList from "@/views/coupon/CouponList.vue";
+import {useCookies} from "@vueuse/integrations/useCookies";
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -113,7 +114,7 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: '/todo',
         name: 'Todo',
-        component: TodoDemo
+        component: TauriDemo
     },
     {
         path: '/:pathMatch(.*)*',
@@ -133,7 +134,10 @@ let hasNewRoutes = false
 router.beforeEach(async (to, from, next) => {
     await showFullLoading()
     const authStore = useAuthStore()
-    if (to.meta.requiresAuth && !authStore.isAuthenticated) {
+    const cookie = useCookies()
+    const token:string = cookie.get("token");
+    authStore.isAuthenticated = cookie.get("auth")
+    if (to.meta.requiresAuth && !authStore.isAuthenticated && token == null) {
         // 如果没有登录，则跳转到登录页面
         next({ name: 'Login' })
     } else {

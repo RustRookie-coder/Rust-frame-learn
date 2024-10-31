@@ -50,7 +50,8 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TagList: typeof import('./src/components/TagList.vue')['default']
-    TodoDemo: typeof import('./src/components/TodoDemo.vue')['default']
+    TauriDemo: typeof import('./src/components/TauriDemo.vue')['default']
+    TodoDemo: typeof import('./src/components/TauriDemo.vue')['default']
   }
   export interface ComponentCustomProperties {
     vLoading: typeof import('element-plus/es')['ElLoadingDirective']

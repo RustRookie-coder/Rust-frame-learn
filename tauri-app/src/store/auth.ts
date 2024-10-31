@@ -17,7 +17,8 @@ export const useAuthStore = defineStore('auth', {
             if (res.token.length > 0) {
                 this.isAuthenticated = true
                 this.user = { name: 'Admin'}
-                cookie.set("token", res.token)
+                cookie.set("token", res.token, { expires: new Date(Date.now() + 7 * 864e5), path: '/'})
+                cookie.set("auth", this.isAuthenticated, { expires: new Date(Date.now() + 7 * 864e5), path: '/'})
                 await router.push('/')
             } else {
                 ElNotification({

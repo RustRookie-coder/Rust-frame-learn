@@ -56,6 +56,16 @@ const asideMenus = [{
       "icon": "avatar",
       "path": "/users/list"
     }]
+  },
+  {"name": "订单管理",
+    "icon": "ticket",
+    "child": [
+      {
+        "name": "订单列表",
+        "icon": "ticket",
+        "path": "/order/list"
+      }
+    ]
   }
 ]
 </script>
