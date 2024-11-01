@@ -43,6 +43,7 @@ declare module 'vue' {
     FormDrawer: typeof import('./src/components/FormDrawer.vue')['default']
     Header: typeof import('./src/components/Header.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
+    IndexCard: typeof import('./src/components/IndexCard.vue')['default']
     IndexChart: typeof import('./src/components/IndexChart.vue')['default']
     IndexNavs: typeof import('./src/components/IndexNavs.vue')['default']
     Menu: typeof import('./src/components/Menu.vue')['default']

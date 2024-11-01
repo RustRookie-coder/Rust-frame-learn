@@ -18,7 +18,7 @@ const defaultActive = ref(route.path)
 
 //const asideMenus = computed(() => store.state.menus)
 const asideMenus = [{
-  "name": "后台面板",
+  "name": "首页",
   "icon": "help",
   "child": [{
     "name": "主控台",
@@ -62,11 +62,41 @@ const asideMenus = [{
     "child": [
       {
         "name": "订单列表",
-        "icon": "ticket",
+        "icon": "money",
         "path": "/order/list"
       }
     ]
-  }
+  },
+  {"name": "管理员管理",
+    "icon": "management",
+    "child": [
+      {
+        "name": "管理员管理",
+        "icon": "coordinate",
+        "path": "/management"
+      },
+      {
+        "name": "权限管理",
+        "icon": "connection",
+        "path": "/management"
+      },
+      {
+        "name": "角色管理",
+        "icon": "mug",
+        "path": "/management"
+      }
+    ]
+  },
+  {"name": "图库管理",
+    "icon": "camera",
+    "child": [
+      {
+        "name": "图库列表",
+        "icon": "picture-filled",
+        "path": "/image/list"
+      }
+    ]
+  },
 ]
 </script>
 
@@ -97,7 +127,7 @@ const asideMenus = [{
           </el-menu-item>
         </el-sub-menu>
 
-        <el-menu-item v-else :index="item.frontpath">
+        <el-menu-item v-else :index="item.path">
           <el-icon>
             <component :is="item.icon"></component>
           </el-icon>

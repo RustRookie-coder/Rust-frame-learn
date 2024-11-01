@@ -1,7 +1,9 @@
 <script setup lang="ts">
 
 import * as echarts from 'echarts'
-import {onMounted, ref, onUnmounted} from "vue";
+import {onMounted, ref, onUnmounted, onBeforeUnmount} from "vue";
+import { useResizeObserver } from '@vueuse/core'
+
 const current = ref("week")
 const options = [{
   text: "近一个月",
@@ -40,9 +42,6 @@ const handleChoose = (type) => {
       break;
     }
   }
-  console.log("type:" + current.value)
-  console.log("periodData:" + periodData.value)
-  console.log("realData:" + realData.value)
 }
 const chartRef = ref<HTMLDivElement | null>(null)
 let chartInstance: echarts.ECharts | null = null;
@@ -75,6 +74,7 @@ const initChart = () => {
 
 // Handle window resize to adjust the chart size
 const resizeChart = () => {
+  //@ts-ignore
   chartInstance?.resize();
 }
 
@@ -86,8 +86,15 @@ onMounted(() => {
 
 onUnmounted(() => {
   window.removeEventListener('resize', resizeChart); // Clean up event listener
+  //@ts-ignore
   chartInstance?.dispose(); // Dispose of the chart instance when unmounted
 });
+
+onBeforeUnmount(() => {
+  if(echarts.init(chartRef.value)) echarts.dispose(chartRef.value)
+})
+
+useResizeObserver(chartRef.value, (entries) => chartInstance?.resize())
 
 </script>
 

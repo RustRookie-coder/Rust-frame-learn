@@ -51,7 +51,10 @@
       <el-col :span="12" :offset="0">
         <IndexChart/>
       </el-col>
-      <el-col :span="12" :offset="0"></el-col>
+      <el-col :span="12" :offset="0">
+        <IndexCard class="mb-4" :title="'店铺及商品提示'" :tip="'店铺及商品提示'" :column-data="goods"/>
+        <IndexCard :title="'交易提示'" :tip="'需要立即处理的交易订单'" :column-data="orders"/>
+      </el-col>
     </el-row>
   </div>
 </template>
@@ -62,6 +65,7 @@ import {useAuthStore} from '@/store/auth'
 import {ref} from "vue";
 import IndexNavs from "@/components/IndexNavs.vue";
 import IndexChart from "@/components/IndexChart.vue";
+import IndexCard from "@/components/IndexCard.vue";
 
 const authStore = useAuthStore()
 
@@ -100,6 +104,47 @@ const panels = ref(data)
 const getStatistics = async () => {
 
 }
+
+const goodsData = [
+  {
+    "label": "审核中",
+    "value": 3,
+  },
+  {
+    "label": "销售中",
+    "value": 11,
+  },
+  {
+    "label": "已下架",
+    "value": 0,
+  },
+  {
+    "label": "库存调整",
+    "value": 0,
+  }
+]
+
+const goods = ref(goodsData)
+
+const orderData = [
+  {
+    "label": "待付款",
+    "value": 3,
+  },
+  {
+    "label": "待发货",
+    "value": 14,
+  },
+  {
+    "label": "已发货",
+    "value": 0,
+  },
+  {
+    "label": "退款中",
+    "value": 18,
+  }
+]
+const orders = ref(orderData)
 </script>
 <style>
 

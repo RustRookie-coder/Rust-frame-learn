@@ -10,7 +10,7 @@ const activeTab = ref(route.path)
 const cookie = useCookies()
 const tabList = ref([
   {
-    title: '后台首页',
+    title: '首页',
     path: "/"
   },
 ])
@@ -72,7 +72,7 @@ const handleClose = (c) => {
     activeTab.value = "/"
     //过滤只剩下首页
     tabList.value = [{
-      title: '后台首页',
+      title: '首页',
       path: "/"
     }]
   } else if (c == "clearOther") {
