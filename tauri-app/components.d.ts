@@ -7,6 +7,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AsideList: typeof import('./src/components/AsideList.vue')['default']
     CountTo: typeof import('./src/components/CountTo.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
@@ -43,6 +44,8 @@ declare module 'vue' {
     FormDrawer: typeof import('./src/components/FormDrawer.vue')['default']
     Header: typeof import('./src/components/Header.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
+    ImageAside: typeof import('./src/components/Image/ImageAside.vue')['default']
+    ImageMain: typeof import('./src/components/Image/ImageMain.vue')['default']
     IndexCard: typeof import('./src/components/IndexCard.vue')['default']
     IndexChart: typeof import('./src/components/IndexChart.vue')['default']
     IndexNavs: typeof import('./src/components/IndexNavs.vue')['default']
