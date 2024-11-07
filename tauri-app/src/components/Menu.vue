@@ -73,17 +73,17 @@ const asideMenus = [{
       {
         "name": "管理员管理",
         "icon": "coordinate",
-        "path": "/management"
+        "path": "/manage/list"
       },
       {
         "name": "权限管理",
         "icon": "connection",
-        "path": "/management"
+        "path": "/manage"
       },
       {
         "name": "角色管理",
         "icon": "mug",
-        "path": "/management"
+        "path": "/manage"
       }
     ]
   },
@@ -94,6 +94,11 @@ const asideMenus = [{
         "name": "图库列表",
         "icon": "picture-filled",
         "path": "/image/list"
+      },
+      {
+        "name": "公告管理",
+        "icon": "notification",
+        "path": "/notice/list"
       }
     ]
   },

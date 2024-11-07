@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import {ref} from "vue";
+import {computed, ref} from "vue";
 import {showPrompt} from "@/utils/common";
 import UploadFile from "@/components/UploadFile.vue";
+import { ElMessage } from "element-plus";
 
 // page
 const currentPage = ref(2)
@@ -16,31 +17,38 @@ const drawer = ref(false)
 const mock = [{
   id: 1,
   url: "http://tangzhe123-com.oss-cn-shenzhen.aliyuncs.com/public/6291c5166b58f.png",
-  name: "1.png"
+  name: "1.png",
+  checked: false,
 }, {
   id: 2,
   url: "http://tangzhe123-com.oss-cn-shenzhen.aliyuncs.com/public/6291c4e93b445.jpg",
-  name: "2.jpg"
+  name: "2.jpg",
+  checked: false,
 }, {
   id: 3,
   url: "http://tangzhe123-com.oss-cn-shenzhen.aliyuncs.com/public/6291c4e90c768.jpg",
-  name: "3.jpg"
+  name: "3.jpg",
+  checked: true,
 }, {
   id: 4,
   url: "http://tangzhe123-com.oss-cn-shenzhen.aliyuncs.com/public/6291c4e8d0b86.jpg",
-  name: "4.jpg"
+  name: "4.jpg",
+  checked: true,
 }, {
   id: 5,
   url: "http://tangzhe123-com.oss-cn-shenzhen.aliyuncs.com/public/6291c4e8a6a04.jpg",
-  name: "5.jpg"
+  name: "5.jpg",
+  checked: true,
 }, {
   id: 6,
-  url: "http://tangzhe123-com.oss-cn-shenzhen.aliyuncs.com/public/6291c3efac7a5.jpg",
-  name: "6.jpg"
+  url: "",
+  name: "6.jpg",
+  checked: false,
 }, {
   id: 7,
   url: "http://tangzhe123-com.oss-cn-shenzhen.aliyuncs.com/public/6273658e4a974.jpg",
-  name: "7.jpg"
+  name: "7.jpg",
+  checked: false,
 }]
 
 const getData = (page = null) => {
@@ -78,6 +86,27 @@ const openUploadFile = () => {
 const handleUploadSuccess = () => {
   getData(1)
 }
+const emit = defineEmits(["choose"])
+const checkedImage = computed(() => imageList.value.filter(o => o.checked))
+const handleChooseChange = (item) => {
+  if(item.checked && checkedImage.value.length > 1) {
+    item.checked = false
+    ElMessage({
+      message: '最多只能选择一张图片',
+      type: 'error',
+      duration: 3000
+    })
+    return
+  }
+  emit("choose", checkedImage.value)
+}
+
+const props = defineProps({
+  openChoose: {
+    type:Boolean,
+    default: false
+  }
+})
 
 defineExpose({
   loadData,
@@ -90,7 +119,7 @@ defineExpose({
     <div class="top p-3">
       <el-row :gutter="10">
         <el-col :span="6" :offset="0" v-for="(item, index) in imageList" :key="index">
-          <el-card shadow="hover" class="relative mb-3" :body-style="{'padding': 0}">
+          <el-card shadow="hover" class="relative mb-3" :body-style="{'padding': 0}" :class="{ 'border-blue-500':item.checked }">
             <el-image :src="item.url" fit="cover" class="h-[245px]"
                       style="width: 100%"
                       :preview-src-list="[item.url]"
@@ -98,6 +127,8 @@ defineExpose({
             ></el-image>
             <div class="image-title">{{ item.name }}</div>
             <div class="flex items-center justify-center p-2">
+
+              <el-checkbox v-if="props.openChoose" v-model="item.checked" @change="handleChooseChange(item)"/>
               <el-button type="primary" size="default" text @click="handleEdit(item)">重命名</el-button>
               <el-popconfirm title="是否要删除该图片" confirm-button-text="确认" cancel-button-text="取消" @confirm="handleDelete(item)">
                 <template #reference>

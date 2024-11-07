@@ -16,7 +16,7 @@ import NoticeList from "@/views/notice/NoticeList.vue";
 import SettingBase from "@/views/setting/SettingBase.vue";
 import CouponList from "@/views/coupon/CouponList.vue";
 import {useCookies} from "@vueuse/integrations/useCookies";
-import Management from "@/views/management/Management.vue";
+import ManageList from "@/views/manage/ManageList.vue";
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -62,9 +62,9 @@ const routes: Array<RouteRecordRaw> = [
                 }
             },
             {
-                path: "/management",
-                name: "/management",
-                component: Management,
+                path: "/manage/list",
+                name: "/manage/list",
+                component: ManageList,
                 meta: {
                     title: "管理员管理"
                 }

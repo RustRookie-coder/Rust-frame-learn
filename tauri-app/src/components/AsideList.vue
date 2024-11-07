@@ -20,7 +20,12 @@ defineEmits(["edit", "delete"])
         <Edit/>
       </el-icon>
     </el-button>
-    <el-popconfirm title="是否要删除该分类?" confirm-button-text="确认" cancel-button-text="取消" @confirm.stop="$emit('delete')">
+<!--    成功阻止冒泡事件-->
+    <span @click.stop="() => {}">
+    <el-popconfirm title="是否要删除该分类?"
+                   confirm-button-text="确认"
+                   cancel-button-text="取消"
+                   @confirm.stop="$emit('delete')">
       <template #reference>
         <el-button text class="px-1" type="primary" size="default">
           <el-icon :size="12">
@@ -29,6 +34,7 @@ defineEmits(["edit", "delete"])
         </el-button>
       </template>
     </el-popconfirm>
+    </span>
   </div>
 </template>
 
