@@ -4,11 +4,29 @@ import {Refresh} from "@element-plus/icons-vue";
 import {computed, reactive, ref} from "vue";
 import FormDrawer from "@/components/FormDrawer.vue";
 import ChooseImage from "@/components/Image/ChooseImage.vue";
+import {useInitTable} from "@/common/tables";
+import {manageList} from "@/api/manager";
 
-const tableData = ref([])
-const total = ref(1)
-const currentPage = ref(1)
-const limit = ref(10)
+const {
+  searchForm,
+  tableData,
+  total,
+  currentPage,
+  limit,
+  getData,
+} = useInitTable({
+  searchForm: {
+    keyword: ""
+  },
+  getList: manageList,
+  onGetListSuccess: (data) => {
+    tableData.value = data.map(o => {
+      o.statusLoading = false
+      return o
+    })
+    console.log(JSON.stringify(data))
+  }
+})
 //"超级管理员, 管理员, 普通用户, 游客"
 const roles = ref([{
   id: 1,
@@ -23,45 +41,6 @@ const roles = ref([{
   id: 4,
   name: "游客"
 }])
-
-const searchForm = reactive({
-  keyword: ""
-})
-
-
-const getData = () => {
-  //@ts-ignore
-  tableData.value = [{
-    "id": 50,
-    "status": 1,
-    "create_time": "2022-01-05 14:07:00",
-    "update_time": "2022-01-16 02:32:37",
-    "username": "ceshi1",
-    "avatar": "http://tangzhe123-com.oss-cn-shenzhen.aliyuncs.com/public/6291c4e90c768.jpg",
-    "role_id": 2,
-    "super": 0,
-    "role": {
-      "id": 2,
-      "name": "超级管理员"
-    }
-  },{
-    "id": 51,
-    "status": 1,
-    "create_time": "2022-01-05 15:07:00",
-    "update_time": "2022-01-16 03:32:37",
-    "username": "ceshi2",
-    "avatar": "http://tangzhe123-com.oss-cn-shenzhen.aliyuncs.com/public/6291c4e8a6a04.jpg",
-    "role_id": 3,
-    "super": 1,
-    "role": {
-      "id": 3,
-      "name": "管理员"
-    }
-  }]
-}
-
-getData()
-
 // delete notification by backend
 const handleDelete = (id) => {
 
@@ -195,14 +174,14 @@ const errorHandler = () => {
         <template #default="{ row }">
           <el-switch v-model="row.status"
                      :active-value="1" :loading="row.statusLoading"
-                     :disabled="row.super == 1"
+                     :disabled="row.isSuper == 1"
                      :inactive-value="0" @change="handleStatusChange($event, row)">
           </el-switch>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center">
         <template #default="scope">
-          <small v-if="scope.row.super == 1" class="text-sm text-gray-500">暂无操作</small>
+          <small v-if="scope.row.isSuper == 1" class="text-sm text-gray-500">暂无操作</small>
           <div v-else>
             <el-button type="primary" text size="default" @click="handleEdit(scope.row)">修改</el-button>
             <el-popconfirm title="是否要删除该管理员?"
@@ -223,29 +202,29 @@ const errorHandler = () => {
       <el-pagination background layout="prev, pager, next" :total="total" :current-page="currentPage" :page-size="limit"
                      @current-change="getData"/>
     </div>
-        <FormDrawer ref="manageRef" :title="drawerTitle" @submit="handleSubmit">
-          <el-form :model="form" ref="formRef" :rules="rules" label-width="80px" :inline="false">
-            <el-form-item label="用户名" prop="username">
-              <el-input v-model="form.username" placeholder="用户名"></el-input>
-            </el-form-item>
-            <el-form-item label="密码" prop="password">
-              <el-input v-model="form.password" placeholder="密码" :rows="5"/>
-            </el-form-item>
-            <el-form-item label="头像" prop="avatar">
-              <ChooseImage v-model="form.avatar"/>
-            </el-form-item>
-            <el-form-item label="所属角色" prop="role_id">
-              <el-select v-model="form.role_id" value-key="" placeholder="选择所属管理员" clearable filterable @change="">
-                <el-option v-for="item in roles" :key="item.id" :label="item.name" :value="item.id">
-                </el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="状态" prop="status">
-              <el-switch v-model="form.status" :active-value="1" :inactive-value="0">
-              </el-switch>
-            </el-form-item>
-          </el-form>
-        </FormDrawer>
+    <FormDrawer ref="manageRef" :title="drawerTitle" @submit="handleSubmit">
+      <el-form :model="form" ref="formRef" :rules="rules" label-width="80px" :inline="false">
+        <el-form-item label="用户名" prop="username">
+          <el-input v-model="form.username" placeholder="用户名"></el-input>
+        </el-form-item>
+        <el-form-item label="密码" prop="password">
+          <el-input v-model="form.password" placeholder="密码" :rows="5"/>
+        </el-form-item>
+        <el-form-item label="头像" prop="avatar">
+          <ChooseImage v-model="form.avatar"/>
+        </el-form-item>
+        <el-form-item label="所属角色" prop="role_id">
+          <el-select v-model="form.role_id" value-key="" placeholder="选择所属管理员" clearable filterable @change="">
+            <el-option v-for="item in roles" :key="item.id" :label="item.name" :value="item.id">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="状态" prop="status">
+          <el-switch v-model="form.status" :active-value="1" :inactive-value="0">
+          </el-switch>
+        </el-form-item>
+      </el-form>
+    </FormDrawer>
   </el-card>
 </template>
 <style>
