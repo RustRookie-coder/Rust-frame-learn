@@ -3,26 +3,28 @@
 import {Refresh} from "@element-plus/icons-vue";
 import {computed, reactive, ref} from "vue";
 import FormDrawer from "@/components/FormDrawer.vue";
+import {useInitTable} from "@/common/tables";
+import {noticeList} from "@/api/notice";
 
-const tableData = ref([])
-const total = ref(1)
-const currentPage = ref(1)
-const limit = ref(10)
-
-const getData = () => {
-  //@ts-ignore
-  tableData.value = [{
-    "id": 13,
-    "title": "nip",
-    "content": "nip\n",
-    "order": 0,
-    "create_time": "2022-06-06 13:33:55",
-    "update_time": "2022-06-06 14:40:11"
-  }]
-}
-
-getData()
-
+const {
+  tableData,
+  total,
+  currentPage,
+  limit,
+  getData,
+} = useInitTable({
+  searchForm: {
+    keyword: ""
+  },
+  getList: noticeList,
+  onGetListSuccess: (data) => {
+    tableData.value = data.map(o => {
+      o.statusLoading = false
+      return o
+    })
+    console.log(JSON.stringify(data))
+  }
+})
 // delete notification by backend
 const handleDelete = (id) => {
 

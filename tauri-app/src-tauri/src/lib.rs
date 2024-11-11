@@ -2,10 +2,12 @@ use std::sync::{Arc, Mutex};
 use tauri::command;
 use crate::controller::auth_controller::login_command;
 use crate::controller::manage_controller::manage_command;
+use crate::controller::notice_controller::notice_command;
 
 pub mod controller {
     pub mod auth_controller;
     pub mod manage_controller;
+    pub mod notice_controller;
 }
 
 pub mod utils {
@@ -20,7 +22,7 @@ pub fn run() {
         .manage(AppState {
             todos: Arc::new(Mutex::new(Vec::new())),
         })
-        .invoke_handler(tauri::generate_handler![add_todo, get_todos, login_command, manage_command])
+        .invoke_handler(tauri::generate_handler![add_todo, get_todos, login_command, manage_command, notice_command])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
