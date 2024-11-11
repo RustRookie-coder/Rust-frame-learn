@@ -20,3 +20,11 @@ export const manageList = async(query = {}) => {
         role: manager.role,
     }))
 }
+
+export const deleteManager = async (id = {}) => {
+    // todo delete
+}
+
+export const updateManagerStatus = async (status = {}, row = {}) => {
+
+}

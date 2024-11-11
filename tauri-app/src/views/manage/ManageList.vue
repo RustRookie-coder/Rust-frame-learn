@@ -4,8 +4,8 @@ import {Refresh} from "@element-plus/icons-vue";
 import {computed, reactive, ref} from "vue";
 import FormDrawer from "@/components/FormDrawer.vue";
 import ChooseImage from "@/components/Image/ChooseImage.vue";
-import {useInitTable} from "@/common/tables";
-import {manageList} from "@/api/manager";
+import {useInitForm, useInitTable} from "@/common/init";
+import {deleteManager, manageList, updateManagerStatus} from "@/api/manager";
 
 const {
   searchForm,
@@ -25,7 +25,9 @@ const {
       return o
     })
     console.log(JSON.stringify(data))
-  }
+  },
+  delete: deleteManager,
+  updateStatus: updateManagerStatus
 })
 //"超级管理员, 管理员, 普通用户, 游客"
 const roles = ref([{
@@ -42,79 +44,38 @@ const roles = ref([{
   name: "游客"
 }])
 // delete notification by backend
-const handleDelete = (id) => {
-
-}
-const manageRef = ref(null)
-const formRef = ref(null)
-const form = reactive({
-  username: "",
-  password: "",
-  role_id: null,
-  status: 1,
-  avatar: "",
+const {
+  drawerRef,
+  formRef,
+  form,
+  editId,
+  drawerTitle,
+  rules,
+  handleSubmit,
+  handleEdit,
+  handleCreate,
+} = useInitForm({
+  form: {
+    username: "",
+    password: "",
+    role_id: null,
+    status: 1,
+    avatar: "",
+  },
+  rules: {
+    username: [{
+      required: true,
+      message: '用户名不能为空',
+      trigger: 'blur'
+    }],
+    password: [{
+      required: true,
+      message: '密码不能为空',
+      trigger: 'blur'
+    }]
+  },
+  getData
 })
-const editId = ref(0)
-const drawerTitle = computed(() => editId.value ? "修改" : "新增")
-
-const rules = {
-  username: [{
-    required: true,
-    message: '用户名不能为空',
-    trigger: 'blur'
-  }],
-  password: [{
-    required: true,
-    message: '密码不能为空',
-    trigger: 'blur'
-  }]
-}
-const handleSubmit = () => {
-  formRef.value.validate((valid) => {
-    if (!valid) return
-
-    manageRef.value.showLoading()
-    //todo
-    const fun = editId.value ? "此处todo更新方法" : "此处todo新建方法"
-    manageRef.value.hideLoading()
-
-    manageRef.value.close()
-  })
-}
-
-const resetForm = () => {
-  searchForm.keyword = ""
-  // 获取列表数据todo
-  location.reload()
-}
-
-const handleEdit = (row) => {
-  editId.value = row.id
-  form.username = row.username
-  form.password = row.password
-  form.avatar = row.avatar
-  form.role_id = row.role_id
-  form.status = row.status
-  manageRef.value.open()
-}
-
-const handleCreate = () => {
-  // editId.value = 0
-  // //@ts-ignore
-  // resetForm({
-  //   title: "",
-  //   content: "",
-  // })
-  manageRef.value.open()
-}
-
-const handleStatusChange = (status, row) => {
-  console.log(status)
-}
-
-const errorHandler = () => {
-
-}
 </script>
 
 <template>
@@ -202,7 +163,7 @@ const errorHandler = () => {
       <el-pagination background layout="prev, pager, next" :total="total" :current-page="currentPage" :page-size="limit"
                      @current-change="getData"/>
     </div>
-    <FormDrawer ref="manageRef" :title="drawerTitle" @submit="handleSubmit">
+    <FormDrawer ref="drawerRef" :title="drawerTitle" @submit="handleSubmit">
       <el-form :model="form" ref="formRef" :rules="rules" label-width="80px" :inline="false">
         <el-form-item label="用户名" prop="username">
           <el-input v-model="form.username" placeholder="用户名"></el-input>

@@ -1,16 +1,16 @@
 <script setup lang="ts">
 
 import {Refresh} from "@element-plus/icons-vue";
-import {computed, reactive, ref} from "vue";
 import FormDrawer from "@/components/FormDrawer.vue";
-import {useInitTable} from "@/common/tables";
-import {noticeList} from "@/api/notice";
+import {useInitForm, useInitTable} from "@/common/init";
+import {deleteNotice, noticeList} from "@/api/notice";
 
 const {
   tableData,
   total,
   currentPage,
   limit,
+  handleDelete,
   getData,
 } = useInitTable({
   searchForm: {
@@ -23,70 +23,39 @@ const {
       return o
     })
     console.log(JSON.stringify(data))
-  }
+  },
+  delete: deleteNotice
 })
 // delete notification by backend
-const handleDelete = (id) => {
-
-}
-const noticeRef = ref(null)
-const formRef = ref(null)
-const form = reactive({
-  title: "",
-  content: "",
-})
-const editId = ref(0)
-const drawerTitle = computed(() => editId.value ? "修改" : "新增")
-
-const rules = {
-  title: [{
-    required: true,
-    message: '公告标题不能为空',
-    trigger: 'blur'
-  }],
-  content: [{
-    required: true,
-    message: '公告内容不能为空',
-    trigger: 'blur'
-  }]
-}
-const handleSubmit = () => {
-  formRef.value.validate((valid) => {
-    if(!valid) return
-
-    noticeRef.value.showLoading()
-    //todo
-    const fun = editId.value ? "此处todo更新方法" : "此处todo新建方法"
-    noticeRef.value.hideLoading()
-    noticeRef.value.close()
-  })
-}
-
-const resetForm = (row = false) => {
-  if(formRef.value) formRef.value.clearValidate()
-  if(row) {
-    for(const key in form) {
-      form[key] = row[key]
-    }
-  }
-}
-
-const handleEdit = (row) => {
-  editId.value = row.id
-  form.title = row.title
-  form.content = row.content
-  noticeRef.value.open()
-}
-
-const handleCreate = () => {
-  editId.value = 0
-  //@ts-ignore
-  resetForm({
+const {
+  drawerRef,
+  formRef,
+  form,
+  editId,
+  drawerTitle,
+  rules,
+  handleSubmit,
+  handleEdit,
+  handleCreate,
+} = useInitForm({
+  form: {
     title: "",
     content: "",
-  })
-  noticeRef.value.open()
-}
+  },
+  rules: {
+    title: [{
+      required: true,
+      message: '公告标题不能为空',
+      trigger: 'blur'
+    }],
+    content: [{
+      required: true,
+      message: '公告内容不能为空',
+      trigger: 'blur'
+    }]
+  },
+  getData
+})
 </script>
 
 <template>
@@ -120,7 +89,7 @@ const handleCreate = () => {
       <el-pagination background layout="prev, pager, next" :total="total" :current-page="currentPage" :page-size="limit"
                      @current-change="getData"/>
     </div>
-    <FormDrawer ref="noticeRef" :title="drawerTitle" @submit="handleSubmit">
+    <FormDrawer ref="drawerRef" :title="drawerTitle" @submit="handleSubmit">
       <el-form :model="form" ref="formRef" :rules="rules" label-width="80px" :inline="false">
         <el-form-item label="公告标题" prop="title">
           <el-input v-model="form.title" placeholder="公告标题"></el-input>
