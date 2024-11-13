@@ -4,6 +4,7 @@ import {Refresh} from "@element-plus/icons-vue";
 import FormDrawer from "@/components/FormDrawer.vue";
 import {useInitForm, useInitTable} from "@/common/init";
 import {deleteNotice, noticeList} from "@/api/notice";
+import ListHeader from "@/components/ListHeader.vue";
 
 const {
   tableData,
@@ -60,12 +61,7 @@ const {
 
 <template>
   <el-card shadow="never" class="border-0">
-    <div class="flex items-center justify-between mb-4">
-      <el-button type="primary" size="default" @click="handleCreate">新增</el-button>
-      <el-tooltip class="box-item" effect="dark" content="" placement="top">
-        <el-button text @click="getData"><el-icon :size="20"><refresh/></el-icon></el-button>
-      </el-tooltip>
-    </div>
+    <ListHeader @create="handleCreate" @refresh="getData"/>
     <el-table :data="tableData" stripe style="width: 100%">
       <el-table-column prop="title" label="公告标题"></el-table-column>
       <el-table-column prop="create_time" label="发布时间"></el-table-column>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {useRoute, useRouter} from "vue-router";
+import {onBeforeRouteUpdate, useRoute, useRouter} from "vue-router";
 import {computed, ref} from "vue";
 import {useStore} from "vuex";
 
@@ -15,6 +15,10 @@ const isCollapse = computed(() => !(store.state.asideWidth == '250px'))
 const route = useRoute()
 //默认选中
 const defaultActive = ref(route.path)
+//监听路由变化
+onBeforeRouteUpdate((to, from) => {
+  defaultActive.value = to.path
+})
 
 //const asideMenus = computed(() => store.state.menus)
 const asideMenus = [{
@@ -78,7 +82,7 @@ const asideMenus = [{
       {
         "name": "权限管理",
         "icon": "connection",
-        "path": "/manage"
+        "path": "/access/list"
       },
       {
         "name": "角色管理",
@@ -108,7 +112,6 @@ const asideMenus = [{
 <template>
   <div class="b-menu" :style="{ width: $store.state.asideWidth }">
     <el-menu
-        default-active="2"
         class="border-0"
         @select="handleSelect"
         :collapse="isCollapse"

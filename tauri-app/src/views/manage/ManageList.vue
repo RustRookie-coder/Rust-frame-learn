@@ -1,11 +1,11 @@
 <script setup lang="ts">
 
-import {Refresh} from "@element-plus/icons-vue";
-import {computed, reactive, ref} from "vue";
+import {ref} from "vue";
 import FormDrawer from "@/components/FormDrawer.vue";
 import ChooseImage from "@/components/Image/ChooseImage.vue";
 import {useInitForm, useInitTable} from "@/common/init";
 import {deleteManager, manageList, updateManagerStatus} from "@/api/manager";
+import ListHeader from "@/components/ListHeader.vue";
 
 const {
   searchForm,
@@ -97,23 +97,13 @@ const {
       </el-row>
     </el-form>
 
-
-    <div class="flex items-center justify-between mb-4">
-      <el-button type="primary" size="default" @click="handleCreate">新增</el-button>
-      <el-tooltip class="box-item" effect="dark" content="" placement="top">
-        <el-button text @click="getData">
-          <el-icon :size="20">
-            <refresh/>
-          </el-icon>
-        </el-button>
-      </el-tooltip>
-    </div>
+    <ListHeader @create="handleCreate" @refresh="getData"/>
 
     <el-table :data="tableData" stripe style="width: 100%">
       <el-table-column prop="username" label="管理员">
         <template #default="{ row }">
           <div class="flex items-center">
-            <el-avatar :size="60" :src="row.avatar" @error="errorHandler">
+            <el-avatar :size="60" :src="row.avatar">
               <img :src="row.avatar"/>
             </el-avatar>
             <div class="ml-3">
