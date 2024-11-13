@@ -14,6 +14,7 @@ const {
   currentPage,
   limit,
   getData,
+  resetSearchForm,
 } = useInitTable({
   searchForm: {
     keyword: ""
@@ -91,7 +92,7 @@ const {
         <el-col :span="8" :offset="8">
           <div class="flex items-center justify-end">
             <el-button type="primary" @click="getData">搜索</el-button>
-            <el-button @click="resetForm">重置</el-button>
+            <el-button @click="resetSearchForm">重置</el-button>
           </div>
         </el-col>
       </el-row>
