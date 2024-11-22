@@ -2,7 +2,7 @@
 
 import FormDrawer from "@/components/FormDrawer.vue";
 import {useInitForm, useInitTable} from "@/common/init";
-import {deleteNotice, noticeList} from "@/api/notice";
+import {deleteRole, roleList, updateRoleStatus} from "@/api/role";
 import ListHeader from "@/components/ListHeader.vue";
 
 const {
@@ -12,19 +12,18 @@ const {
   limit,
   handleDelete,
   getData,
+  handleStatusChange,
 } = useInitTable({
   searchForm: {
     keyword: ""
   },
-  getList: noticeList,
+  getList: roleList,
   onGetListSuccess: (data) => {
-    tableData.value = data.map(o => {
-      o.statusLoading = false
-      return o
-    })
+    tableData.value = data
     console.log(JSON.stringify(data))
   },
-  delete: deleteNotice
+  delete: deleteRole,
+  update: updateRoleStatus
 })
 // delete notification by backend
 const {
@@ -39,20 +38,16 @@ const {
   handleCreate,
 } = useInitForm({
   form: {
-    title: "",
-    content: "",
+    name: "",
+    desc: "",
+    status: 1
   },
   rules: {
-    title: [{
+    name: [{
       required: true,
-      message: '公告标题不能为空',
+      message: '名称不能为空',
       trigger: 'blur'
     }],
-    content: [{
-      required: true,
-      message: '公告内容不能为空',
-      trigger: 'blur'
-    }]
   },
   getData
 })
@@ -62,8 +57,17 @@ const {
   <el-card shadow="never" class="border-0">
     <ListHeader @create="handleCreate" @refresh="getData"/>
     <el-table :data="tableData" stripe style="width: 100%">
-      <el-table-column prop="title" label="公告标题"></el-table-column>
-      <el-table-column prop="create_time" label="发布时间"></el-table-column>
+      <el-table-column prop="name" label="角色名称"></el-table-column>
+      <el-table-column prop="desc" label="角色描述"></el-table-column>
+      <el-table-column prop="status" label="状态">
+        <template #default="{ row }">
+          <el-switch v-model="row.status"
+                     :active-value="1" :loading="row.statusLoading"
+                     :disabled="row.isSuper == 1"
+                     :inactive-value="0" @change="handleStatusChange($event, row)">
+          </el-switch>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" align="center">
         <template #default="scope">
           <el-button type="primary" text size="default" @click="handleEdit(scope.row)">修改</el-button>
@@ -86,11 +90,15 @@ const {
     </div>
     <FormDrawer ref="drawerRef" :title="drawerTitle" @submit="handleSubmit">
       <el-form :model="form" ref="formRef" :rules="rules" label-width="80px" :inline="false">
-        <el-form-item label="公告标题" prop="title">
-          <el-input v-model="form.title" placeholder="公告标题"></el-input>
+        <el-form-item label="角色名称" prop="name">
+          <el-input v-model="form.name" placeholder="角色名称"></el-input>
         </el-form-item>
-        <el-form-item label="公告内容" prop="content">
-          <el-input v-model="form.content" placeholder="公告内容" type="textarea" :rows="5"/>
+        <el-form-item label="角色描述" prop="desc">
+          <el-input v-model="form.desc" placeholder="角色描述" type="textarea" :rows="5"/>
+        </el-form-item>
+        <el-form-item label="状态" prop="status">
+          <el-switch :model-value="form.status" :active-value="1" :inactive-value="0">
+          </el-switch>
         </el-form-item>
       </el-form>
     </FormDrawer>

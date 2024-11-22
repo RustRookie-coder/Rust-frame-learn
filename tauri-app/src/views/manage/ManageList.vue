@@ -15,6 +15,8 @@ const {
   limit,
   getData,
   resetSearchForm,
+  handleStatusChange,
+  handleDelete,
 } = useInitTable({
   searchForm: {
     keyword: ""

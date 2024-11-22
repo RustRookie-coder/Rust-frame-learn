@@ -10,3 +10,11 @@ export const createRule = async (data = {}) => {
 export const updateRule = async (id, data = {}) => {
 
 }
+
+export const updateRuleStatus = async (id, status) => {
+
+}
+
+export const deleteRule = async (id) => {
+    return id
+}

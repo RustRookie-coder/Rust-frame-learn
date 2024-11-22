@@ -87,7 +87,7 @@ const asideMenus = [{
       {
         "name": "角色管理",
         "icon": "mug",
-        "path": "/manage"
+        "path": "/role/list"
       }
     ]
   },

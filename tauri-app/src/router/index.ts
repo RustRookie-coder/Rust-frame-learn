@@ -17,7 +17,8 @@ import SettingBase from "@/views/setting/SettingBase.vue";
 import CouponList from "@/views/coupon/CouponList.vue";
 import {useCookies} from "@vueuse/integrations/useCookies";
 import ManageList from "@/views/manage/ManageList.vue";
-import AccessList from "@/views/access/AccessList.vue";
+import AccessList from "@/views/manage/AccessList.vue";
+import RoleList from "@/views/manage/RoleList.vue";
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -76,6 +77,14 @@ const routes: Array<RouteRecordRaw> = [
                 component: AccessList,
                 meta: {
                     title: "权限管理"
+                }
+            },
+            {
+                path: "/role/list",
+                name: "role",
+                component: RoleList,
+                meta: {
+                    title: "角色管理"
                 }
             },
             {
