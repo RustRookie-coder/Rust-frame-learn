@@ -44,7 +44,7 @@ const asideMenus = [{
     },{
       "name": "规格管理",
       "icon": "aim",
-      "path": "/spec/list"
+      "path": "/skus/list"
     }, {
       "name": "优惠券管理",
       "icon": "postcard",

@@ -19,6 +19,7 @@ import {useCookies} from "@vueuse/integrations/useCookies";
 import ManageList from "@/views/manage/ManageList.vue";
 import AccessList from "@/views/manage/AccessList.vue";
 import RoleList from "@/views/manage/RoleList.vue";
+import SkusList from "@/views/skus/SkusList.vue";
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -46,6 +47,13 @@ const routes: Array<RouteRecordRaw> = [
                 component: CategoryList,
                 meta: {
                     title: "分类列表"
+                }
+            },
+            {
+                path: '/skus/list',
+                component: SkusList,
+                meta: {
+                    title: "规格管理"
                 }
             },
             {
@@ -214,6 +222,14 @@ const asyncRoutes  = [
         component: OrderList,
         meta:{
             title: "订单",
+        }
+    },
+    {
+        path: "/skus/list",
+        name: "/skus/list",
+        component: SkusList,
+        meta: {
+            title: "规格管理"
         }
     },
     {

@@ -25,7 +25,7 @@ const {
     console.log(JSON.stringify(data))
   },
   delete: deleteRole,
-  update: updateRoleStatus
+  updateStatus: updateRoleStatus
 })
 // delete notification by backend
 const {
@@ -120,6 +120,7 @@ const handleTreeCheck = (...e) => {
       <el-table-column label="操作" align="center">
         <template #default="scope">
           <el-button type="primary" text size="default" @click="openSetRule(scope.row)">配置权限</el-button>
+          <el-button type="primary" text @click="handleEdit(scope.row)">修改</el-button>
           <el-popconfirm title="是否要删除该公告?"
                          confirm-button-text="确认"
                          cancel-button-text="取消"

@@ -73,6 +73,7 @@ declare module 'vue' {
     NotFound: typeof import('./src/components/NotFound.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    TagInputs: typeof import('./src/components/TagInputs.vue')['default']
     TagList: typeof import('./src/components/TagList.vue')['default']
     TauriDemo: typeof import('./src/components/TauriDemo.vue')['default']
     TodoDemo: typeof import('./src/components/TauriDemo.vue')['default']

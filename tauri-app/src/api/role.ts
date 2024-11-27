@@ -14,7 +14,7 @@ export const updateRole = async (id, data = {}) => {
 
 }
 
-export const updateRoleStatus = (id, status) => {
+export const updateRoleStatus = async (id, status) => {
 
 }
 

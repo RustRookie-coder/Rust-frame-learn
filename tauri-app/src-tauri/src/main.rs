@@ -3,6 +3,7 @@
 mod utils;
 mod controller;
 mod service;
+mod model;
 fn main() {
   app_lib::run();
 }

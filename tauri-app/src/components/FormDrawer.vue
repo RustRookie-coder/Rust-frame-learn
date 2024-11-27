@@ -44,7 +44,7 @@ defineExpose({
              :title="title"
              :size="size"
              :close-on-click-modal="false"
-  :destroy-on-close="destroyOnClose">
+  :destroy-on-close="props.destroyOnClose">
     <div class="formDrawer">
       <div class="body">
         <slot></slot>
