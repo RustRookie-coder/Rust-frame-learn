@@ -66,6 +66,7 @@ const authStore = useAuthStore()
 const loading = ref(false)
 
 const onSubmit = async () => {
+  //@ts-ignore
   formRef.value.validate((valid) => {
     if(valid) {
       loading.value = true

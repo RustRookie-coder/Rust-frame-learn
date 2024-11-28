@@ -5,16 +5,21 @@ import {useInitForm, useInitTable} from "@/common/init";
 import ListHeader from "@/components/ListHeader.vue";
 import {createSkus, deleteSkus, getSkusList, updateSkus, updateSkusStatus} from "@/api/skus";
 import TagInputs from "@/components/TagInputs.vue";
-
+import {ref} from "vue";
+import {ElNotification} from "element-plus";
 
 const {
   tableData,
   total,
   currentPage,
   limit,
+  loading,
+  multipleTableRef,
   handleDelete,
   getData,
   handleStatusChange,
+  handleSelectionChange,
+  handleMultiDelete,
 } = useInitTable({
   searchForm: {
     keyword: ""
@@ -60,17 +65,21 @@ const {
   },
   getData,
   update: updateSkus,
-  create: createSkus
+  create: createSkus,
+  delete: deleteSkus,
 })
-
 
 </script>
 
 <template>
   <el-card shadow="never" class="border-0">
-    <ListHeader @create="handleCreate" @refresh="getData"/>
-    <el-table :data="tableData" stripe style="width: 100%">
-      <el-table-column prop="name" label="规格名称" />
+    <ListHeader layout="create, delete, refresh" @create="handleCreate" @refresh="getData" @delete="handleMultiDelete"/>
+    <el-table :data="tableData" stripe style="width: 100%"
+              @selection-change="handleSelectionChange"
+              ref="multipleTableRef"
+              v-loading="loading">
+      <el-table-column type="selection" width="55"/>
+      <el-table-column prop="name" label="规格名称"/>
       <el-table-column prop="default" label="规格值" width="380"/>
       <el-table-column prop="order" label="排序"/>
       <el-table-column prop="status" label="状态">

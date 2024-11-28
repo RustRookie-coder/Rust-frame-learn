@@ -1,4 +1,6 @@
 import { computed, reactive, ref } from "vue";
+import {deleteSkus} from "@/api/skus";
+import {ElNotification} from "element-plus";
 
 export const useInitTable = (opt = {}) => {
     let searchForm = null;
@@ -64,17 +66,47 @@ export const useInitTable = (opt = {}) => {
 
     }
 
+    const multipleTableRef = ref(null)
+    const multiSelectionIds = ref([])
+    const handleSelectionChange = (e) => {
+        multiSelectionIds.value = e.map(o => o.id)
+        console.log("skus ids:" + multiSelectionIds.value)
+    }
+
+    const handleMultiDelete = () => {
+        loading.value = true
+        //@ts-ignore
+        opt.delete(multiSelectionIds.value).then(res => {
+            //清空选中
+            if(res) {
+                ElNotification({
+                    message: 'This is a success message',
+                    type: 'success',
+                })
+                if(multipleTableRef.value) {
+                    //@ts-ignore
+                    multipleTableRef.value.clearSelection()
+                }
+                getData()
+            }
+        }).finally(() => loading.value = false)
+    }
+
     return {
         searchForm,
         tableData,
         total,
         currentPage,
         limit,
+        loading,
         resetSearchForm,
         getData,
         handleStatusChange,
         handleDelete,
-        errorHandler
+        errorHandler,
+        multipleTableRef,
+        handleSelectionChange,
+        handleMultiDelete,
     }
 }
 export const useInitForm = (opt = {}) => {

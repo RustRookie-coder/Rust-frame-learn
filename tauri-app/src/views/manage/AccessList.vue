@@ -22,7 +22,7 @@ const {
     defaultExpandedKeys.value = data.list.map(o => o.id)
   },
   delete: deleteRule,
-  update: updateRuleStatus
+  updateStatus: updateRuleStatus
 })
 
 const {
