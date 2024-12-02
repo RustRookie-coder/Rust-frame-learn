@@ -6,6 +6,7 @@ use crate::controller::notice_controller::notice_command;
 use crate::controller::role_controller::role_command;
 use crate::controller::rule_controller::rule_command;
 use crate::controller::skus_controller::skus_command;
+use crate::controller::coupon_controller::coupon_command;
 
 pub mod controller {
     pub mod auth_controller;
@@ -14,6 +15,7 @@ pub mod controller {
     pub mod rule_controller;
     pub mod role_controller;
     pub mod skus_controller;
+    pub mod coupon_controller;
 }
 
 pub mod utils {
@@ -37,7 +39,9 @@ pub fn run() {
             notice_command,
             rule_command,
             role_command,
-            skus_command])
+            skus_command,
+            coupon_command,
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

@@ -132,8 +132,20 @@ export const useInitForm = (opt = {}) => {
             if (!valid) return
             //@ts-ignore
             drawerRef.value.showLoading()
-            //todo
-            const fun = editId.value ? "此处todo更新方法" : "此处todo新建方法"
+            let body = {}
+            //@ts-ignore
+            if(opt.beforeSubmit && opt.beforeSubmit == "function") {
+                //@ts-ignore
+                body = opt.beforeSubmit({ ...form })
+            } else {
+                body = form
+            }
+            //@ts-ignore
+            const fun = editId.value ? opt.update(editId.value, body) : opt.create(body)
+            fun.then((res) => {
+                //todo
+                console.log("update or create" + res)
+            })
             //@ts-ignore
             drawerRef.value.hideLoading()
             //@ts-ignore
